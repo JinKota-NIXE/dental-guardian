@@ -1,13 +1,15 @@
 import { useState } from "react";
+import GameCanvas from "./GameCanvas";
 
 export default function App() {
-  const [start, setStart] = useState(false);
-  return start ? (
-    <h2 style={{ textAlign: "center", marginTop: "40vh" }}>🚀 Game Screen (あとでCanvasを入れる)</h2>
+  const [started, setStarted] = useState(false);
+
+  return started ? (
+    <GameCanvas />
   ) : (
     <div style={{ textAlign: "center", marginTop: "40vh" }}>
       <h1>Dental Guardian</h1>
-      <button onClick={() => setStart(true)}>START</button>
+      <button onClick={() => setStarted(true)}>START</button>
     </div>
   );
 }
