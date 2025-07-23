@@ -1,23 +1,52 @@
 import { useEffect, useRef } from "react";
 
+const W = 360;
+const H = 640;
+
 export default function GameCanvas() {
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
+    const cvs = canvasRef.current;
+    const ctx = cvs.getContext("2d");
+    cvs.width = W;
+    cvs.height = H;
 
-    // ステージ初期化（サイズなど）
-    canvas.width = 360;
-    canvas.height = 640;
+    // 歯ブラシ画像を読み込む（public/img にあるので先頭は /img/）
+    const playerImg = new Image();
+    playerImg.src = "/img/player_tbrush.png";
 
-    // 背景描画（仮）
-    ctx.fillStyle = "#e0f7fa";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    let x = W / 2 - 60;
+    const y = H - 120;
 
-    // 歯ブラシプレイヤー（仮の四角）
-    ctx.fillStyle = "#00796b";
-    ctx.fillRect(150, 550, 60, 60);
+    // 指･マウスで左右移動
+    const move = (e) => {
+      const rect = cvs.getBoundingClientRect();
+      const posX =
+        (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+      x = posX - 60; // 画像幅 120px の半分
+    };
+    cvs.addEventListener("mousemove", move);
+    cvs.addEventListener("touchmove", move);
+
+    // 画像が読み込めたらゲームループ開始
+    playerImg.onload = () => {
+      const loop = () => {
+        ctx.fillStyle = "#f4faff";        // 背景クリア
+        ctx.fillRect(0, 0, W, H);
+
+        ctx.drawImage(playerImg, x, y, 120, 120); // プレイヤー
+
+        requestAnimationFrame(loop);
+      };
+      loop();
+    };
+
+    // 後片付け
+    return () => {
+      cvs.removeEventListener("mousemove", move);
+      cvs.removeEventListener("touchmove", move);
+    };
   }, []);
 
   return (
@@ -26,3 +55,7 @@ export default function GameCanvas() {
     </div>
   );
 }
+
+
+
+
