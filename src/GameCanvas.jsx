@@ -32,7 +32,6 @@ export default function GameCanvas() {
 
     // ライフとゲームオーバーフラグ
     let life = MAX_LIFE;
-    let bgScale = 1.0, ZOOM_SPEED = 0.00003;
 
     // 背景ズーム用の状態
     let bgScale = 1.0; // 拡大倍率
