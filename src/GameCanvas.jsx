@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 
 const W = 360, H = 640;
-const MAX_LIFE = 3;              // ★ライフ上限
+const MAX_LIFE = 3;              // ライフ上限
 
 export default function GameCanvas() {
   const cvsRef = useRef(null);
-  const [gameOver, setGameOver] = useState(false);   // ★React state で結果画面に切替
+  const [gameOver, setGameOver] = useState(false);   // React state で結果画面に切替
 
   useEffect(() => {
     if (gameOver) return;        // 終了後にループを走らせない
@@ -30,7 +30,7 @@ export default function GameCanvas() {
     const bullets = [], enemies = [];
     let score = 0, frame = 0;
 
-    /* ★ライフとゲームオーバーフラグ */
+    /* ライフとゲームオーバーフラグ */
     let life = MAX_LIFE;
     let bgScale = 1.0, ZOOM_SPEED = 0.00003;
 
@@ -59,7 +59,7 @@ export default function GameCanvas() {
         if (frame % 60 === 0) enemies.push({ x: Math.random() * (W - 100), y: -100 });
         enemies.forEach((e) => (e.y += 2));
 
-        /* ★当たり判定（弾→敵） */
+        /* 当たり判定（弾→敵） */
         bullets.forEach((b, bi) => {
           enemies.forEach((e, ei) => {
             if (rectHit(b.x, b.y, 32, 32, e.x, e.y, 100, 100)) {
@@ -70,7 +70,7 @@ export default function GameCanvas() {
           });
         });
 
-        /* ★当たり判定（敵→プレイヤー） */
+        /* 当たり判定（敵→プレイヤー） */
         enemies.forEach((e, ei) => {
           if (rectHit(px, py, 120, 120, e.x, e.y, 100, 100)) {
             enemies.splice(ei, 1);   // 敵を消す
@@ -99,7 +99,7 @@ export default function GameCanvas() {
         ctx.font = "20px sans-serif";
         ctx.fillText("Score: " + score, 10, 30);
 
-        // ★ライフゲージ（シンプルに❤️テキスト）
+        // ライフゲージ（シンプルに❤️テキスト）
         ctx.fillText("HP: " + "❤️".repeat(life), 10, 55);
 
         if (!gameOver) requestAnimationFrame(loop);
@@ -116,11 +116,11 @@ export default function GameCanvas() {
     };
   }, [gameOver]);
 
-  /* ★ユーティリティ：矩形ヒット判定 */
+  /* ユーティリティ：矩形ヒット判定 */
   const rectHit = (x1, y1, w1, h1, x2, y2, w2, h2) =>
     x1 < x2 + w2 && x1 + w1 > x2 && y1 < y2 + h2 && y1 + h1 > y2;
 
-  /* ★ゲームオーバー画面 */
+  /* ゲームオーバー画面 */
   if (gameOver) {
     return (
       <div
