@@ -40,7 +40,7 @@ export default function GameCanvas() {
     // 入力：移動
     const move = e => {
       const rect = cvs.getBoundingClientRect();
-      const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+      const x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
       px = Math.max(0, Math.min(x - 60, W - 120)); // 画面外に出ない
     };
     cvs.addEventListener("mousemove", move);
@@ -48,7 +48,7 @@ export default function GameCanvas() {
 
     // 入力：弾発射（スペース or タップ）
     const shoot = () => bullets.push({ x: px + 44, y: py - 10 });
-    window.addEventListener("keydown", e => e.code === "Space" && shoot());
+    window.addEventListener("keydown", (e) => e.code === "Space" && shoot());
     cvs.addEventListener("click", shoot);
 
     // 画像ロード後メインループ
@@ -64,7 +64,7 @@ export default function GameCanvas() {
         // 敵
         if (frame % 60 === 0) // 1 秒ごと
           enemies.push({ x: Math.random() * (W-100), y: -100 });
-        enemies.forEach(e => e.y += 2);
+        enemies.forEach((e) => (e.y += 2));
 
         // 当たり判定（弾→敵）
         bullets.forEach((b, bi) => {
