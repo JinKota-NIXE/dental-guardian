@@ -12,8 +12,6 @@ export default function GameCanvas() {
   function handlePlayerDamage() {
     setFlashAlpha(0.5); // 一瞬赤くする
     setTimeout(() => setFlashAlpha(0), 100); // 100ms後に戻す
-    console.log("true");
-    // HP減らす処理など
   }
 
   useEffect(() => {
@@ -85,6 +83,7 @@ export default function GameCanvas() {
             enemies.splice(ei, 1);   // 敵を消す
             life--;                  // ライフを減らす
             handlePlayerDamage(); // 赤く点滅する
+            console.log("flashAlpha ... " + flashAlpha);
             if (life <= 0) {
               setGameOver(true);     // React state 更新
             }
