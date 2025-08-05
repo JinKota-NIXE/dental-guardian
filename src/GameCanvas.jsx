@@ -92,6 +92,8 @@ export default function GameCanvas() {
           }
         });
 
+        console.log("flashAlpha ... " + flashAlpha);
+
         /* --- 描画 --- */
         // 背景（ゆっくり拡大）
         ctx.fillStyle = "#000";
