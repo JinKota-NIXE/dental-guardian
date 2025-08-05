@@ -139,7 +139,7 @@ export default function GameCanvas() {
       cvs.removeEventListener("click", shoot);
       window.removeEventListener("keydown", shoot);
     };
-  }, [gameOver, flashAlphaRef]);
+  }, [gameOver]);
 
   /* ユーティリティ：矩形ヒット判定 */
   const rectHit = (x1, y1, w1, h1, x2, y2, w2, h2) =>
