@@ -6,16 +6,7 @@ const MAX_LIFE = 3;              // ライフ上限
 export default function GameCanvas() {
   const cvsRef = useRef(null);
   const [gameOver, setGameOver] = useState(false);   // React state で結果画面に切替
-  // const [flashAlpha, setFlashAlpha] = useState(false); // ダメージ時のフラッシュ状態を管理
-  const flashAlphaRef = useRef(false);
-
-  // ダメージ時に呼ばれる関数
-  /*
-  function handlePlayerDamage() {
-    setFlashAlpha(0.5); // 一瞬赤くする
-    setTimeout(() => setFlashAlpha(0), 100); // 100ms後に戻す
-  }
-  */
+  const flashAlphaRef = useRef(false); // ダメージ時のフラッシュ状態を管理
 
   useEffect(() => {
     if (gameOver) return;        // 終了後にループを走らせない
@@ -85,10 +76,10 @@ export default function GameCanvas() {
           if (rectHit(px, py, 120, 120, e.x, e.y, 100, 100)) {
             enemies.splice(ei, 1);   // 敵を消す
             life--;                  // ライフを減らす
-            flashAlphaRef.current = true;
+            flashAlphaRef.current = true; // 一瞬赤くする
             setTimeout(() => {
               flashAlphaRef.current = false;
-            }, 100);
+            }, 100); // 100ms後に戻す
             if (life <= 0) {
               setGameOver(true);     // React state 更新
             }
