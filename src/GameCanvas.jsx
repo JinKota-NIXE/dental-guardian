@@ -6,7 +6,8 @@ const MAX_LIFE = 3;              // ライフ上限
 export default function GameCanvas() {
   const cvsRef = useRef(null);
   const [gameOver, setGameOver] = useState(false);   // React state で結果画面に切替
-  const [flashAlpha, setFlashAlpha] = useState(false); // ダメージ時のフラッシュ状態を管理
+  // const [flashAlpha, setFlashAlpha] = useState(false); // ダメージ時のフラッシュ状態を管理
+  const flashAlphaRef = useRef(false);
 
   // ダメージ時に呼ばれる関数
   /*
@@ -84,9 +85,10 @@ export default function GameCanvas() {
           if (rectHit(px, py, 120, 120, e.x, e.y, 100, 100)) {
             enemies.splice(ei, 1);   // 敵を消す
             life--;                  // ライフを減らす
-            setFlashAlpha(true); // 一瞬赤くする
-            console.log("flashAlpha ... " + flashAlpha);
-            setTimeout(() => setFlashAlpha(false), 100); // 100ms後に戻す
+            flashAlphaRef.current = true;
+            setTimeout(() => {
+              flashAlphaRef.current = false;
+            }, 100);
             if (life <= 0) {
               setGameOver(true);     // React state 更新
             }
@@ -117,7 +119,7 @@ export default function GameCanvas() {
         ctx.fillText("HP: " + "❤️".repeat(life), 10, 55);
         
         // フラッシュ演出（Canvasの最後に描画）
-        if (flashAlpha) {
+        if (flashAlphaRef.current) {
           ctx.save();
           ctx.globalAlpha = 0.5;
           ctx.fillStyle = "red";
@@ -137,7 +139,7 @@ export default function GameCanvas() {
       cvs.removeEventListener("click", shoot);
       window.removeEventListener("keydown", shoot);
     };
-  }, [gameOver, flashAlpha]);
+  }, [gameOver]);
 
   /* ユーティリティ：矩形ヒット判定 */
   const rectHit = (x1, y1, w1, h1, x2, y2, w2, h2) =>
