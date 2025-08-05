@@ -118,6 +118,7 @@ export default function GameCanvas() {
           ctx.fillStyle = "red";
           ctx.fillRect(0, 0, canvas.width, canvas.height);
           ctx.restore();
+          console.log("true");
         }
         
         if (!gameOver) requestAnimationFrame(loop);
