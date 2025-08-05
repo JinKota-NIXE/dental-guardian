@@ -11,7 +11,7 @@ export default function GameCanvas() {
   // ダメージ時に呼ばれる関数
   function handlePlayerDamage() {
     setFlashAlpha(0.5); // 一瞬赤くする
-    // setTimeout(setFlashAlpha(0), 100); // 100ms後に戻す
+    setTimeout(setFlashAlpha(0), 100); // 100ms後に戻す
   }
 
   useEffect(() => {
@@ -83,12 +83,13 @@ export default function GameCanvas() {
             enemies.splice(ei, 1);   // 敵を消す
             life--;                  // ライフを減らす
             handlePlayerDamage(); // 赤く点滅する
-            console.log("flashAlpha ... " + flashAlpha);
             if (life <= 0) {
               setGameOver(true);     // React state 更新
             }
           }
         });
+
+        console.log("flashAlpha ... " + flashAlpha);
 
         /* --- 描画 --- */
         // 背景（ゆっくり拡大）
