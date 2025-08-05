@@ -123,7 +123,7 @@ export default function GameCanvas() {
           ctx.save();
           ctx.globalAlpha = 0.5;
           ctx.fillStyle = "red";
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.fillRect(0, 0, W, H);
           ctx.restore();
         }
         
