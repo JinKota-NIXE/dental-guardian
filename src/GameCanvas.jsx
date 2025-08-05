@@ -10,7 +10,7 @@ export default function GameCanvas() {
 
   // ダメージ時に呼ばれる関数
   function handlePlayerDamage() {
-    setFlashAlpha(0.5); // 一瞬赤くする
+    setFlashAlpha(5); // 一瞬赤くする
     console.log("flashAlpha ... " + flashAlpha);
     setTimeout(() => setFlashAlpha(0), 100); // 100ms後に戻す
   }
