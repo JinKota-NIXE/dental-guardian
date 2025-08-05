@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 const W = 360, H = 640;
 const MAX_LIFE = 3;              // ライフ上限
 
+
 /* === useStateなどでフラッシュ状態を管理 === */
 const [flashAlpha, setFlashAlpha] = useState(0);
 
@@ -85,7 +86,6 @@ export default function GameCanvas() {
           if (rectHit(px, py, 120, 120, e.x, e.y, 100, 100)) {
             enemies.splice(ei, 1);   // 敵を消す
             life--;                  // ライフを減らす
-            handlePlayerDamage(); // 赤く点滅する
             if (life <= 0) {
               setGameOver(true);     // React state 更新
             }
@@ -113,6 +113,15 @@ export default function GameCanvas() {
         // ライフゲージ（シンプルに❤️テキスト）
         ctx.fillText("HP: " + "❤️".repeat(life), 10, 55);
 
+        // フラッシュ演出（Canvasの最後に描画）
+        if (flashAlpha > 0) {
+          ctx.save();
+          ctx.globalAlpha = flashAlpha;
+          ctx.fillStyle = "red";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.restore();
+        }
+        
         if (!gameOver) requestAnimationFrame(loop);
       };
       loop();
