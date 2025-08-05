@@ -85,8 +85,6 @@ export default function GameCanvas() {
             }
           }
         });
-        
-        console.log("flashAlphaRef.current ... " + flashAlphaRef.current);
 
         /* --- 描画 --- */
         // 背景（ゆっくり拡大）
