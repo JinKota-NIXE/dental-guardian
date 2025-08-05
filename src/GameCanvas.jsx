@@ -86,7 +86,7 @@ export default function GameCanvas() {
           if (rectHit(px, py, 120, 120, e.x, e.y, 100, 100)) {
             enemies.splice(ei, 1);   // 敵を消す
             life--;                  // ライフを減らす
-            setFlashAlpha(true);
+            // setFlashAlpha(true);
             if (life <= 0) {
               setGameOver(true);     // React state 更新
             }
@@ -114,6 +114,7 @@ export default function GameCanvas() {
         // ライフゲージ（シンプルに❤️テキスト）
         ctx.fillText("HP: " + "❤️".repeat(life), 10, 55);
 
+        /*
         // フラッシュ演出（Canvasの最後に描画）
         if (flashAlpha > 0) {
           ctx.save();
@@ -122,6 +123,7 @@ export default function GameCanvas() {
           ctx.fillRect(0, 0, canvas.width, canvas.height);
           ctx.restore();
         }
+        */
         
         if (!gameOver) requestAnimationFrame(loop);
       };
