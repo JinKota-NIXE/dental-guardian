@@ -9,11 +9,12 @@ export default function GameCanvas() {
   const [flashAlpha, setFlashAlpha] = useState(0); // ダメージ時のフラッシュ状態を管理
 
   // ダメージ時に呼ばれる関数
+  /*
   function handlePlayerDamage() {
-    setFlashAlpha(5); // 一瞬赤くする
-    console.log("flashAlpha ... " + flashAlpha);
+    setFlashAlpha(0.5); // 一瞬赤くする
     setTimeout(() => setFlashAlpha(0), 100); // 100ms後に戻す
   }
+  */
 
   useEffect(() => {
     if (gameOver) return;        // 終了後にループを走らせない
@@ -83,7 +84,8 @@ export default function GameCanvas() {
           if (rectHit(px, py, 120, 120, e.x, e.y, 100, 100)) {
             enemies.splice(ei, 1);   // 敵を消す
             life--;                  // ライフを減らす
-            handlePlayerDamage(); // 赤く点滅する
+            setFlashAlpha(0.5); // 一瞬赤くする
+            setTimeout(() => setFlashAlpha(0), 100); // 100ms後に戻す
             if (life <= 0) {
               setGameOver(true);     // React state 更新
             }
