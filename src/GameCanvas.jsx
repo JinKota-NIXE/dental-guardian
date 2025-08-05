@@ -86,6 +86,7 @@ export default function GameCanvas() {
           if (rectHit(px, py, 120, 120, e.x, e.y, 100, 100)) {
             enemies.splice(ei, 1);   // 敵を消す
             life--;                  // ライフを減らす
+            setFlashAlpha(true);
             if (life <= 0) {
               setGameOver(true);     // React state 更新
             }
