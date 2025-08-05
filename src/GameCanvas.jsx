@@ -86,7 +86,6 @@ export default function GameCanvas() {
             enemies.splice(ei, 1);   // 敵を消す
             life--;                  // ライフを減らす
             flashAlphaRef.current = true;
-            console.log("flashAlphaRef.current ... " + flashAlphaRef.current);
             setTimeout(() => {
               flashAlphaRef.current = false;
             }, 100);
@@ -95,8 +94,8 @@ export default function GameCanvas() {
             }
           }
         });
-
         
+        console.log("flashAlphaRef.current ... " + flashAlphaRef.current);
 
         /* --- 描画 --- */
         // 背景（ゆっくり拡大）
