@@ -117,7 +117,7 @@ export default function GameCanvas() {
         ctx.fillText("HP: " + "❤️".repeat(life), 10, 55);
         
         // フラッシュ演出（Canvasの最後に描画）
-        if (flashAlpha) {
+        if (!flashAlpha) {
           ctx.save();
           ctx.globalAlpha = 0.5;
           ctx.fillStyle = "red";
