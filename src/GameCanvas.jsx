@@ -64,12 +64,11 @@ export default function GameCanvas() {
         if (frame % 60 === 0 || !bossRef.current) {
           console.log("true1");
           enemies.push({ x: Math.random() * (W - 100), y: -100 });
-          enemiesCount++;
         }
         enemies.forEach((e) => (e.y += 2));
 
-        // ボス出現（敵が20回出現するごとに、まだ出現していない場合）
-        if (enemiesCount % 20 === 0 && !bossRef.current) {
+        // ボス出現（スコアが20単位で越えるごとに、まだ出現していない場合）
+        if (score % 20 === 0 && !bossRef.current) {
           console.log("true2");
           boss = { x: W / 2 - 100, y: -200 }; // 初期位置は画面外上
           bossRef.current = true;
@@ -145,9 +144,11 @@ export default function GameCanvas() {
         enemies.forEach((e) => ctx.drawImage(enemyImg, e.x, e.y, 100, 100));
         
         // ボスの描画
-        if (boss) {
+        if (bossRef.current) {
           console.log("true5");
+          ctx.save();
           ctx.drawImage(bossImg, boss.x, boss.y, 200, 200);
+          ctx.restore();
         }
 
         // スコア
@@ -160,7 +161,6 @@ export default function GameCanvas() {
 
         // ステージクリア演出
         if (gameClearRef.current) {
-          console.log("true");
           ctx.save();
           ctx.fillStyle = "#000";
           ctx.font = "30px sans-serif";
