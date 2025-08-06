@@ -110,6 +110,7 @@ export default function GameCanvas() {
               bossHP--;
               if (bossHP <= 0) {
                 boss = null;
+                bossRef.current = false;
                 gameClearRef.current = true;
                 setTimeout(() => gameClearRef.current = false, 5000);
               }
