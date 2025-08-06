@@ -68,7 +68,7 @@ export default function GameCanvas() {
               bullets.splice(bi, 1);
               enemies.splice(ei, 1);
               score++;
-              if (score >= 100) {
+              if (score >= 10) {
                 gameClearRef.current = true; // ゲームクリアフラグ更新
                 setTimeout(() => {
                   gameClearRef.current = false;
@@ -116,10 +116,13 @@ export default function GameCanvas() {
 
         // ステージクリア演出
         if (gameClearRef.current) {
+          console.log("true");
+          ctx.save();
           ctx.fillStyle = "#000";
           ctx.font = "50px sans-serif";
           ctx.textAlign = "center";
           ctx.fillText("MISSION COMPLETE", x, H / 2);
+          ctx.restore();
         }
 
         // フラッシュ演出
