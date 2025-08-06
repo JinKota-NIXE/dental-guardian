@@ -69,7 +69,7 @@ export default function GameCanvas() {
         enemies.forEach((e) => (e.y += 2));
 
         // ボス出現（敵が20回出現するごとに、まだ出現していない場合）
-        if (enemiesCount % 20 == 0 && !bossRef.current) {
+        if (enemiesCount != 0 && enemiesCount % 20 == 0 && !bossRef.current) {
           boss = { x: W / 2 - 100, y: -200 }; // 初期位置は画面外上
           bossRef.current = true;
         }
