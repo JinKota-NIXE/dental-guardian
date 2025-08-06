@@ -32,8 +32,8 @@ export default function GameCanvas() {
 
     /* === 状態 === */
     let px = W / 2 - 60, py = H - 120;
-    const bullets = [], enemies = [], boss = [];
-    let score = 0, frame = 0, enemiesCount = 0, bossHP = 10;
+    const bullets = [], enemies = [];
+    let score = 0, frame = 0, enemiesCount = 0, boss = [], bossHP = 10;
 
     /* ライフとゲームオーバーフラグ */
     let life = MAX_LIFE;
