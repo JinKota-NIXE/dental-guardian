@@ -32,8 +32,7 @@ export default function GameCanvas() {
 
     /* === 状態 === */
     let px = W / 2 - 60, py = H - 120;
-    const bullets = [], enemies = [];
-    let boss = [];
+    const bullets = [], enemies = [], boss = [];
     let score = 0, frame = 0, enemiesCount = 0, bossHP = 10;
 
     /* ライフとゲームオーバーフラグ */
@@ -63,19 +62,22 @@ export default function GameCanvas() {
 
         bullets.forEach((b) => (b.y -= 8));
         if (frame % 60 === 0 || !bossRef.current) {
+          console.log("true1");
           enemies.push({ x: Math.random() * (W - 100), y: -100 });
           enemiesCount++;
         }
         enemies.forEach((e) => (e.y += 2));
 
         // ボス出現（敵が20回出現するごとに、まだ出現していない場合）
-        if (enemiesCount != 0 && enemiesCount % 20 == 0 && !bossRef.current) {
+        if (enemiesCount % 20 === 0 && !bossRef.current) {
+          console.log("true2");
           boss = { x: W / 2 - 100, y: -200 }; // 初期位置は画面外上
           bossRef.current = true;
         }
 
         // ボス出現時の動作
         if (boss) {
+          console.log("true3");
           if (boss.y < 50) {
             boss.y += 1; // ゆっくり降りてくる
           }
@@ -102,6 +104,7 @@ export default function GameCanvas() {
 
         /* 当たり判定（弾→ボス） */
         bullets.forEach((b, bi) => {
+          console.log("true4");
           if (rectHit(b.x, b.y, 32, 32, boss.x, boss.y, 200, 200)) {
             bullets.splice(bi, 1);
             bossHP--;
@@ -143,6 +146,7 @@ export default function GameCanvas() {
         
         // ボスの描画
         if (boss) {
+          console.log("true5");
           ctx.drawImage(bossImg, boss.x, boss.y, 200, 200);
         }
 
