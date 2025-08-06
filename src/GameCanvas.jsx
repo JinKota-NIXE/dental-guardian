@@ -75,7 +75,7 @@ export default function GameCanvas() {
         }
 
         // ボス出現時の動作
-        if (boss) {
+        if (bossRef.current) {
           console.log("true3");
           if (boss.y < 50) {
             boss.y += 1; // ゆっくり降りてくる
