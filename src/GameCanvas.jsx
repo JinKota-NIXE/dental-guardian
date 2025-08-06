@@ -6,10 +6,11 @@ const MAX_LIFE = 3;              // ライフ上限
 export default function GameCanvas() {
   const cvsRef = useRef(null);
   const [gameOver, setGameOver] = useState(false);   // React state で結果画面に切替
+  const [gameClear, setGameClear] = useState(false); // ゲームクリア状態を管理
   const flashAlphaRef = useRef(false); // ダメージ時のフラッシュ状態を管理
 
   useEffect(() => {
-    if (gameOver) return;        // 終了後にループを走らせない
+    if (gameOver || gameClear) return;        // 終了後にループを走らせない
 
     const cvs = cvsRef.current;
     const ctx = cvs.getContext("2d");
@@ -67,6 +68,9 @@ export default function GameCanvas() {
               bullets.splice(bi, 1);
               enemies.splice(ei, 1);
               score++;
+              if (score >= 100) {
+                setGameClear(true);
+              }
             }
           });
         });
@@ -116,7 +120,7 @@ export default function GameCanvas() {
           ctx.restore();
         }
         
-        if (!gameOver) requestAnimationFrame(loop);
+        if (!gameOver || !gameClear) requestAnimationFrame(loop);
       };
       loop();
     };
@@ -128,7 +132,7 @@ export default function GameCanvas() {
       cvs.removeEventListener("click", shoot);
       window.removeEventListener("keydown", shoot);
     };
-  }, [gameOver]);
+  }, [gameOver, gameClear]);
 
   /* ユーティリティ：矩形ヒット判定 */
   const rectHit = (x1, y1, w1, h1, x2, y2, w2, h2) =>
@@ -150,6 +154,24 @@ export default function GameCanvas() {
         }}
       >
         <h1>GAME OVER</h1>
+        <button onClick={() => window.location.reload()}>TRY AGAIN</button>
+      </div>
+    );
+  } else if (gameClear) {
+    return (
+      <div
+        style={{
+          width: W,
+          height: H,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          background: "#000",
+          color: "#fff",
+        }}
+      >
+        <h1>MISSION COMPLETE</h1>
         <button onClick={() => window.location.reload()}>TRY AGAIN</button>
       </div>
     );
