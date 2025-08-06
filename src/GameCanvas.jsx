@@ -6,11 +6,11 @@ const MAX_LIFE = 3;              // ライフ上限
 export default function GameCanvas() {
   const cvsRef = useRef(null);
   const [gameOver, setGameOver] = useState(false);   // React state で結果画面に切替
-  const [gameClear, setGameClear] = useState(false); // ゲームクリア状態を管理
+  const gameClearRef = useRef(false); // ゲームクリア状態を管理
   const flashAlphaRef = useRef(false); // ダメージ時のフラッシュ状態を管理
 
   useEffect(() => {
-    if (gameOver || gameClear) return;        // 終了後にループを走らせない
+    if (gameOver) return;        // 終了後にループを走らせない
 
     const cvs = cvsRef.current;
     const ctx = cvs.getContext("2d");
@@ -69,7 +69,10 @@ export default function GameCanvas() {
               enemies.splice(ei, 1);
               score++;
               if (score >= 100) {
-                setGameClear(true);
+                gameClearRef.current = true; // ゲームクリアフラグ更新
+                setTimeout(() => {
+                  gameClearRef.current = false;
+                }, 5000); // 5000ms後に戻す
               }
             }
           });
@@ -78,14 +81,14 @@ export default function GameCanvas() {
         /* 当たり判定（敵→プレイヤー） */
         enemies.forEach((e, ei) => {
           if (rectHit(px, py, 120, 120, e.x, e.y, 100, 100)) {
-            enemies.splice(ei, 1);   // 敵を消す
-            life--;                  // ライフを減らす
-            flashAlphaRef.current = true; // 一瞬赤くする
+            enemies.splice(ei, 1); // 敵を消す
+            life--; // ライフを減らす
+            flashAlphaRef.current = true; // フラッシュ演出フラグ更新
             setTimeout(() => {
               flashAlphaRef.current = false;
             }, 100); // 100ms後に戻す
             if (life <= 0) {
-              setGameOver(true);     // React state 更新
+              setGameOver(true); // ゲームオーバーフラグ更新
             }
           }
         });
@@ -108,10 +111,18 @@ export default function GameCanvas() {
         ctx.font = "20px sans-serif";
         ctx.fillText("Score: " + score, 10, 30);
 
-        // ライフゲージ（シンプルに❤️テキスト）
+        // ライフゲージ
         ctx.fillText("HP: " + "❤️".repeat(life), 10, 55);
 
-        // フラッシュ演出（Canvasの最後に描画）
+        // ステージクリア演出
+        if (gameClearRef.current) {
+          ctx.fillStyle = "#000";
+          ctx.font = "50px sans-serif";
+          ctx.textAlign = "center";
+          ctx.fillText("MISSION COMPLETE", x, H / 2);
+        }
+
+        // フラッシュ演出
         if (flashAlphaRef.current) {
           ctx.save();
           ctx.globalAlpha = 0.5;
@@ -120,7 +131,7 @@ export default function GameCanvas() {
           ctx.restore();
         }
         
-        if (!gameOver || !gameClear) requestAnimationFrame(loop);
+        if (!gameOver) requestAnimationFrame(loop);
       };
       loop();
     };
@@ -132,7 +143,7 @@ export default function GameCanvas() {
       cvs.removeEventListener("click", shoot);
       window.removeEventListener("keydown", shoot);
     };
-  }, [gameOver, gameClear]);
+  }, [gameOver]);
 
   /* ユーティリティ：矩形ヒット判定 */
   const rectHit = (x1, y1, w1, h1, x2, y2, w2, h2) =>
@@ -157,6 +168,8 @@ export default function GameCanvas() {
         <button onClick={() => window.location.reload()}>TRY AGAIN</button>
       </div>
     );
+  }
+  /*
   } else if (gameClear) {
     return (
       <div
@@ -176,6 +189,7 @@ export default function GameCanvas() {
       </div>
     );
   }
+  */
 
   /* 通常時はキャンバス */
   return <canvas ref={cvsRef}></canvas>;
