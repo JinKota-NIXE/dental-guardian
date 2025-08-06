@@ -121,7 +121,7 @@ export default function GameCanvas() {
           ctx.fillStyle = "#000";
           ctx.font = "50px sans-serif";
           ctx.textAlign = "center";
-          ctx.fillText("MISSION COMPLETE", x, H / 2);
+          ctx.fillText("MISSION COMPLETE", W/2, H/2);
           ctx.restore();
         }
 
