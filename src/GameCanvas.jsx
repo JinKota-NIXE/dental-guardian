@@ -7,6 +7,7 @@ export default function GameCanvas() {
   const cvsRef = useRef(null);
   const [gameOver, setGameOver] = useState(false);   // React state で結果画面に切替
   const gameClearRef = useRef(false); // ゲームクリア状態を管理
+  const bossRef = useRef(false); // ボス出現状態を管理
   const flashAlphaRef = useRef(false); // ダメージ時のフラッシュ状態を管理
 
   useEffect(() => {
@@ -21,16 +22,18 @@ export default function GameCanvas() {
     const playerImg = new Image();
     const bulletImg = new Image();
     const enemyImg  = new Image();
+    const bossImg = new Image();
 
     bgImg.src     = "/img/bg_tooth_surface.png";
     playerImg.src = "/img/player_tbrush.png";
     bulletImg.src = "/img/weapon_brush_shot.png";
     enemyImg.src  = "/img/enemy_cavity_a.png";
+    bossImg.src = "/img/_dammy___afloimagemart_215016841.webp";
 
     /* === 状態 === */
     let px = W / 2 - 60, py = H - 120;
-    const bullets = [], enemies = [];
-    let score = 0, frame = 0;
+    const bullets = [], enemies = [], boss = [];
+    let score = 0, frame = 0, enemiesCount = 0, bossHP = 10;
 
     /* ライフとゲームオーバーフラグ */
     let life = MAX_LIFE;
@@ -58,8 +61,24 @@ export default function GameCanvas() {
         bgScale += ZOOM_SPEED;
 
         bullets.forEach((b) => (b.y -= 8));
-        if (frame % 60 === 0) enemies.push({ x: Math.random() * (W - 100), y: -100 });
+        if (frame % 60 === 0 || !bossRef.current) {
+          enemies.push({ x: Math.random() * (W - 100), y: -100 });
+          enemiesCount++;
+        }
         enemies.forEach((e) => (e.y += 2));
+
+        // ボス出現（敵が20回出現するごとに、まだ出現していない場合）
+        if (enemiesCount % 20 == 0 && !bossRef.current) {
+          boss = { x: W / 2 - 100, y: -200 }; // 初期位置は画面外上
+          bossRef.current = true;
+        }
+
+        // ボス出現時の動作
+        if (boss) {
+          if (boss.y < 50) {
+            boss.y += 1; // ゆっくり降りてくる
+          }
+        }
 
         /* 当たり判定（弾→敵） */
         bullets.forEach((b, bi) => {
@@ -68,14 +87,29 @@ export default function GameCanvas() {
               bullets.splice(bi, 1);
               enemies.splice(ei, 1);
               score++;
+              /*
               if (score >= 10) {
                 gameClearRef.current = true; // ゲームクリアフラグ更新
                 setTimeout(() => {
                   gameClearRef.current = false;
                 }, 5000); // 5000ms後に戻す
               }
+              */
             }
           });
+        });
+
+        /* 当たり判定（弾→ボス） */
+        bullets.forEach((b, bi) => {
+          if (rectHit(b.x, b.y, 32, 32, boss.x, boss.y, 200, 200)) {
+            bullets.splice(bi, 1);
+            bossHP--;
+            if (bossHP <= 0) {
+              boss = null;
+              gameClearRef.current = true;
+              setTimeout(() => gameClearRef.current = false, 5000);
+            }
+          }
         });
 
         /* 当たり判定（敵→プレイヤー） */
@@ -105,6 +139,11 @@ export default function GameCanvas() {
         ctx.drawImage(playerImg, px, py, 120, 120);
         bullets.forEach((b) => ctx.drawImage(bulletImg, b.x, b.y, 32, 32));
         enemies.forEach((e) => ctx.drawImage(enemyImg, e.x, e.y, 100, 100));
+        
+        // ボスの描画
+        if (boss) {
+          ctx.drawImage(bossImg, boss.x, boss.y, 200, 200);
+        }
 
         // スコア
         ctx.fillStyle = "#000";
