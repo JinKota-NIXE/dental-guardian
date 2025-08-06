@@ -33,7 +33,7 @@ export default function GameCanvas() {
     /* === 状態 === */
     let px = W / 2 - 60, py = H - 120;
     const bullets = [], enemies = [];
-    let score = 0, frame = 0, enemiesCount = 0, boss = [], bossHP = 10;
+    let score = 0, frame = 0, enemiesCount = 0, boss = null, bossHP = 10;
 
     /* ライフとゲームオーバーフラグ */
     let life = MAX_LIFE;
@@ -61,7 +61,7 @@ export default function GameCanvas() {
         bgScale += ZOOM_SPEED;
 
         bullets.forEach((b) => (b.y -= 8));
-        if (frame % 60 === 0 || !bossRef.current) {
+        if (frame % 60 === 0 && score < 20) {
           console.log("true1");
           enemies.push({ x: Math.random() * (W - 100), y: -100 });
         }
@@ -102,18 +102,20 @@ export default function GameCanvas() {
         });
 
         /* 当たり判定（弾→ボス） */
-        bullets.forEach((b, bi) => {
-          console.log("true4");
-          if (rectHit(b.x, b.y, 32, 32, boss.x, boss.y, 200, 200)) {
-            bullets.splice(bi, 1);
-            bossHP--;
-            if (bossHP <= 0) {
-              boss = null;
-              gameClearRef.current = true;
-              setTimeout(() => gameClearRef.current = false, 5000);
+        if (bossRef.current) {
+          bullets.forEach((b, bi) => {
+            console.log("true4");
+            if (rectHit(b.x, b.y, 32, 32, boss.x, boss.y, 200, 200)) {
+              bullets.splice(bi, 1);
+              bossHP--;
+              if (bossHP <= 0) {
+                boss = null;
+                gameClearRef.current = true;
+                setTimeout(() => gameClearRef.current = false, 5000);
+              }
             }
-          }
-        });
+          });
+        }
 
         /* 当たり判定（敵→プレイヤー） */
         enemies.forEach((e, ei) => {
