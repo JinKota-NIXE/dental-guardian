@@ -28,7 +28,7 @@ export default function GameCanvas() {
     playerImg.src = "/img/player_tbrush.png";
     bulletImg.src = "/img/weapon_brush_shot.png";
     enemyImg.src  = "/img/enemy_cavity_a.png";
-    bossImg.src = "/img/_dammy___afloimagemart_215016841.webp";
+    bossImg.src = "/img/boss_tartar_phase1.png";
 
     /* === 状態 === */
     let px = W / 2 - 60, py = H - 120;
@@ -164,7 +164,7 @@ export default function GameCanvas() {
         if (bossRef.current) {
           console.log("true5");
           ctx.save();
-          ctx.drawImage(bossImg, boss.x, boss.y, 200, 200);
+          ctx.drawImage(bossImg, boss.x, boss.y, 240, 300);
           ctx.restore();
         }
 
