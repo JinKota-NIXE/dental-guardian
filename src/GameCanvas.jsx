@@ -71,7 +71,7 @@ export default function GameCanvas() {
 
         // ボス出現（スコア50ごとに(初回は20から)、ボスがまだ出現していない場合）
         let ifFlag = false;
-        if (score === 20 || !bossRef.current) {
+        if (score === 20 && !bossRef.current) {
           console.log("if ... true1");
           ifFlag = true;
         } else if (score !== 0 && score % 30 === 0 && !bossRef.current) {
