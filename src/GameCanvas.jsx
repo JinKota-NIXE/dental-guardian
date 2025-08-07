@@ -74,7 +74,7 @@ export default function GameCanvas() {
         if (score === 20 && !bossRef.current) {
           console.log("if ... true1");
           ifFlag = true;
-        } else if (score !== 0 && score % 30 === 0 && !bossRef.current) {
+        } else if (score !== 0 && score % 50 === 0 && !bossRef.current) {
           console.log("if ... true2");
           ifFlag = true;
         }
