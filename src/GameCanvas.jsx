@@ -108,7 +108,7 @@ export default function GameCanvas() {
             if (rectHit(b.x, b.y, 32, 32, boss.x, boss.y, 200, 200)) {
               bullets.splice(bi, 1);
               bossHP--;
-              console.log("bossHP");
+              console.log("bossHP ... " + bossHP);
               if (bossHP <= 0) {
                 boss = null;
                 bossRef.current = false;
