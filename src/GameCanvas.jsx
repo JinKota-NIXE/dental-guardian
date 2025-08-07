@@ -59,9 +59,11 @@ export default function GameCanvas() {
 
         /* --- 更新 --- */
         bgScale += ZOOM_SPEED;
-
+        
         bullets.forEach((b) => (b.y -= 8));
-        if (frame % 60 === 0 && !bossRef.current) {
+
+        // 敵出現
+        if (frame % 60 === 0 && !bossRef.current && !gameClearRef) {
           console.log("true1");
           enemies.push({ x: Math.random() * (W - 100), y: -100 });
         }
