@@ -63,7 +63,7 @@ export default function GameCanvas() {
         bullets.forEach((b) => (b.y -= 8));
 
         // 敵出現
-        if (frame % 60 === 0 && !bossRef.current && !gameClearRef) {
+        if (frame % 60 === 0 && !bossRef.current && !gameClearRef.current) {
           console.log("true1");
           enemies.push({ x: Math.random() * (W - 100), y: -100 });
         }
