@@ -108,13 +108,14 @@ export default function GameCanvas() {
             if (rectHit(b.x, b.y, 32, 32, boss.x, boss.y, 200, 200)) {
               bullets.splice(bi, 1);
               bossHP--;
-              console.log("bossHP ... " + bossHP);
+              console.log("before/bossHP ... " + bossHP);
               if (bossHP <= 0) {
                 boss = null;
                 bossHP = 10;
                 bossRef.current = false; // ボス出現フラグ更新
                 gameClearRef.current = true;  // ゲームクリアフラグ更新
                 setTimeout(() => gameClearRef.current = false, 5000);
+                console.log("after/bossHP ... " + bossHP);
               }
             }
           });
