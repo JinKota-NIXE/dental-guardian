@@ -61,7 +61,7 @@ export default function GameCanvas() {
         bgScale += ZOOM_SPEED;
 
         bullets.forEach((b) => (b.y -= 8));
-        if (frame % 60 === 0 && score < 20) {
+        if (frame % 60 === 0 && !bossRef.current) {
           console.log("true1");
           enemies.push({ x: Math.random() * (W - 100), y: -100 });
         }
