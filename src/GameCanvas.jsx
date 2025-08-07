@@ -69,8 +69,8 @@ export default function GameCanvas() {
         }
         enemies.forEach((e) => (e.y += 2));
 
-        // ボス出現（スコアが20越えた時、まだ出現していない場合）
-        if (score !== 0 && score % 20 === 0 && !bossRef.current) {
+        // ボス出現（スコアが20越えた時＆50ごとに、まだ出現していない場合）
+        if (score !== 0 && score <= 20 && score % 50 === 0 && !bossRef.current) {
           console.log("true2");
           boss = { x: W / 2 - 100, y: -200 }; // 初期位置は画面外上
           bossRef.current = true;
@@ -114,6 +114,7 @@ export default function GameCanvas() {
               if (bossHP <= 0) {
                 boss = null;
                 bossHP = 10;
+                score = score + 10;
                 bossRef.current = false; // ボス出現フラグ更新
                 gameClearRef.current = true;  // ゲームクリアフラグ更新
                 setTimeout(() => gameClearRef.current = false, 5000);
