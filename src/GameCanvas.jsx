@@ -113,8 +113,9 @@ export default function GameCanvas() {
 
         /* 当たり判定（弾→ボス） */
         if (bossRef.current) {
-          bullets.forEach((b, bi) => {
+          for (let bi = bullets.length - 1; bi >= 0; bi--) {
             console.log("true4");
+            const b = bullets[bi];
             if (rectHit(b.x, b.y, 32, 32, boss.x, boss.y, 200, 200)) {
               bullets.splice(bi, 1);
               bossHP--;
@@ -122,14 +123,37 @@ export default function GameCanvas() {
               if (bossHP <= 0) {
                 boss = null;
                 bossHP = 10;
-                score = score + 10;
+                score += 10;
                 bossRef.current = false; // ボス出現フラグ更新
-                gameClearRef.current = true;  // ゲームクリアフラグ更新
-                setTimeout(() => gameClearRef.current = false, 5000);
+                gameClearRef.current = true; // ゲームクリアフラグ更新
+                setTimeout(() => {
+                  gameClearRef.current = false;
+                }, 5000);
                 console.log("after/bossHP ... " + bossHP);
               }
             }
-          });
+
+
+            /*
+            bullets.forEach((b, bi) => {
+              console.log("true4");
+              if (rectHit(b.x, b.y, 32, 32, boss.x, boss.y, 200, 200)) {
+                bullets.splice(bi, 1);
+                bossHP--;
+                console.log("before/bossHP ... " + bossHP);
+                if (bossHP <= 0) {
+                  boss = null;
+                  bossHP = 10;
+                  score = score + 10;
+                  bossRef.current = false; // ボス出現フラグ更新
+                  gameClearRef.current = true;  // ゲームクリアフラグ更新
+                  setTimeout(() => gameClearRef.current = false, 5000);
+                  console.log("after/bossHP ... " + bossHP);
+                }
+              }
+            });
+            */
+          }
         }
 
         /* 当たり判定（敵→プレイヤー） */
